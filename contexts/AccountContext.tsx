@@ -48,7 +48,7 @@ export const AccountProvider = ({ children, account }: Props) => {
     }
   }, [])
   useEffect(() => {
-    if (data.account) {
+    if (data?.account) {
       setCustomData(data.account)
     }
   }, [data])

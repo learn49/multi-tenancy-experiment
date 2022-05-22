@@ -1,5 +1,5 @@
 import request from 'graphql-request'
-import type { NextPage } from 'next'
+import type { GetStaticProps, NextPage } from 'next'
 import Head from 'next/head'
 import Link from 'next/link'
 import { useAccount } from '../../contexts/AccountContext'
@@ -26,8 +26,8 @@ export async function getStaticPaths() {
   return { paths: [], fallback: 'blocking' }
 }
 
-export async function getStaticProps(context) {
-  const slug = context.params.slug
+export const getStaticProps: GetStaticProps = async (context) => {
+  const slug = context?.params?.slug
   const { account } = await request(
     'https://api.learn49.com/graphql',
     `
