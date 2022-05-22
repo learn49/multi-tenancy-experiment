@@ -14,7 +14,7 @@ const Home: NextPage = () => {
       </Head>
       <h1>Seja bem-vindo {account?.friendlyName}</h1>
       <p>
-        <Link href='/devpleno/sobre'>
+        <Link href='/sobre'>
           <a>Sobre</a>
         </Link>
       </p>
@@ -28,19 +28,27 @@ export async function getStaticPaths() {
 
 export const getStaticProps: GetStaticProps = async (context) => {
   const slug = context?.params?.slug
-  const { account } = await request(
-    'https://api.learn49.com/graphql',
-    `
+  try {
+    const { account } = await request(
+      'https://api.learn49.com/graphql',
+      `
   query{
     account: getAccountSettingsByDomain(domain: "${slug}.learn49.com"){
       id
       friendlyName
     }
   }`
-  )
+    )
+    return {
+      props: {
+        account
+      },
+      revalidate: 60
+    }
+  } catch (err) {}
   return {
     props: {
-      account
+      account: null
     },
     revalidate: 60
   }
